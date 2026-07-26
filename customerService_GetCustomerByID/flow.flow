@@ -1,0 +1,204 @@
+interface CustomerService
+
+service customerService_GetCustomerByID (
+    input {
+        String customer_id;
+    }
+    output {
+        String name;
+        String email;
+        String accountStatus;
+        String errorMessage;
+    }
+)
+{
+    INVOKE pub.string:concat {
+        input {
+            mapSource {
+                String customer_id;
+            }
+            mapTarget {
+                String inString1;
+                String inString2;
+            }
+            set inString1 = "http://localhost:5001/customers/";
+            copy customer_id -> inString2;
+        }
+        output {
+            mapSource {
+                String `value`;
+            }
+            mapTarget {
+                String fullUrl;
+            }
+            copy `value` -> fullUrl;
+        }
+    }
+    TRY {
+        INVOKE pub.client:http {
+            input {
+                mapSource {
+                    String fullUrl;
+                }
+                mapTarget {
+                    String url;
+                    String method;
+                }
+                copy fullUrl -> url;
+                set method = "get";
+            }
+        }
+        MAP {
+            mapSource {
+                record header {
+                    String status;
+                };
+            }
+            mapTarget {
+                String httpStatus;
+            }
+            copy header/status -> httpStatus;
+        }
+        INVOKE pub.string:bytesToString {
+            input {
+                mapSource {
+                    record body {
+                        Object bytes;
+                    };
+                }
+                mapTarget {
+                    Object bytes;
+                    String encoding;
+                }
+                copy body/bytes -> bytes;
+                set encoding = "UTF-8";
+            }
+            output {
+                mapSource {
+                    String string;
+                }
+                mapTarget {
+                    String responseString;
+                }
+                copy string -> responseString;
+            }
+        }
+        IF (%httpStatus% == "200") {
+            INVOKE pub.json:jsonStringToDocument {
+                input {
+                    mapSource {
+                        String responseString;
+                    }
+                    mapTarget {
+                        String jsonString;
+                    }
+                    copy responseString -> jsonString;
+                }
+                output {
+                    mapSource {
+                        record `document` {
+                        };
+                    }
+                    mapTarget {
+                        record responseDoc {
+                        };
+                    }
+                    copy `document` -> responseDoc;
+                }
+            }
+            INVOKE pub.string:concat {
+                input {
+                    mapTarget {
+                        String inString1;
+                        String inString2;
+                    }
+                    set (variable) inString1 = "%responseDoc/first_name%";
+                    set inString2 = " ";
+                }
+                output {
+                    mapSource {
+                        String `value`;
+                    }
+                    mapTarget {
+                        String firstName;
+                    }
+                    copy `value` -> firstName;
+                }
+            }
+            INVOKE pub.string:concat {
+                input {
+                    mapSource {
+                        String firstName;
+                    }
+                    mapTarget {
+                        String inString1;
+                        String inString2;
+                    }
+                    copy firstName -> inString1;
+                    set (variable) inString2 = "%responseDoc/last_name%";
+                }
+                output {
+                    mapSource {
+                        String `value`;
+                    }
+                    mapTarget {
+                        String name;
+                    }
+                    copy `value` -> name;
+                }
+            }
+            MAP {
+                mapTarget {
+                    String email;
+                    String accountStatus;
+                    String errorMessage;
+                }
+                set (variable) email = "%responseDoc/email%";
+                set (variable) accountStatus = "%responseDoc/status%";
+                set errorMessage = "";
+            }
+        }
+        ELSEIF (%httpStatus% == "404") {
+            MAP {
+                mapTarget {
+                    String name;
+                    String email;
+                    String accountStatus;
+                    String errorMessage;
+                }
+                set name = "";
+                set email = "";
+                set accountStatus = "";
+                set errorMessage = "Customer not found";
+            }
+        }
+        ELSE {
+            MAP {
+                mapTarget {
+                    String name;
+                    String email;
+                    String accountStatus;
+                    String errorMessage;
+                }
+                set name = "";
+                set email = "";
+                set accountStatus = "";
+                set errorMessage = "Customer API unavailable";
+            }
+        }
+    }
+    CATCH {
+        MAP {
+            mapTarget {
+                String name;
+                String email;
+                String accountStatus;
+                String errorMessage;
+            }
+            set name = "";
+            set email = "";
+            set accountStatus = "";
+            set errorMessage = "Customer API unavailable";
+        }
+    }
+}

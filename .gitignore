@@ -1,0 +1,17 @@
+# macOS artefacts
+.DS_Store
+.AppleDouble
+
+# Microsoft Office temp files
+~$*
+
+# Bob internal workspace config
+.bob/
+
+# IDE / editor
+.vscode/
+*.swp
+*.swo
+
+# Excel temp / lock files
+*.tmp
