@@ -5,7 +5,7 @@
   <value name="lazy_load">yes</value>
   <value name="system_package">no</value>
   <value name="version">1.0</value>
-  <value name="name">CustomerService</value>
+  <value name="name">CustomerService_GetCustomerByIDProject</value>
   <null name="startup_services"/>
   <null name="shutdown_services"/>
   <null name="replication_services"/>
