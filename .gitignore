@@ -17,3 +17,10 @@
 *.tmp
 # Documentation files
 *.md
+
+# webMethods package artefacts
+*.dsp
+*.cnf
+*.ndf
+*.zip
+/packages/*/ns/
