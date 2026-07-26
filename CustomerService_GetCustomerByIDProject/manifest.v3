@@ -17,6 +17,6 @@
   <null name="build"/>
   <value name="description">Customer Service package — retrieves customer records by ID from the Customer Management REST API</value>
   <null name="extendedProperties"/>
-  <value name="target_server_version">13.0.0.0</value>
+  <value name="target_server_version">12.1.0.0</value>
   <value name="isProjectPackage">false</value>
 </Values>
