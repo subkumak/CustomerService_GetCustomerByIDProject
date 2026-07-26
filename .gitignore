@@ -15,3 +15,5 @@
 
 # Excel temp / lock files
 *.tmp
+# Documentation files
+*.md

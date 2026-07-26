@@ -1,6 +1,6 @@
 interface CustomerService
 
-service CMR_GetCustomerByID (
+service fetchCustomer (
     input {
         String customer_id;
     }

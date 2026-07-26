@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Values version="2.0">
+  <value name="packageName">CustomerService_GetCustomerByIDProject</value>
+  <value name="version">1.0.0</value>
+  <value name="enabled">true</value>
+  <value name="description">Customer Service — retrieves customer records by ID from the Customer Management API</value>
+  <value name="build">1</value>
+  <value name="requires"></value>
+</Values>
