@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <Values version="2.0">
-  <value name="packageName">CustomerService_GetCustomerByID</value>
-  <value name="version">1.0.0</value>
-  <value name="enabled">true</value>
+  <value name="enabled">yes</value>
+  <value name="lazy_load">yes</value>
+  <value name="system_package">no</value>
+  <value name="version">1.0</value>
+  <value name="name">CustomerService_GetCustomerByID</value>
+  <null name="startup_services"/>
+  <null name="shutdown_services"/>
+  <null name="replication_services"/>
+  <null name="requires"/>
+  <null name="lazy_load_node_types"/>
+  <null name="listACL"/>
+  <value name="webappLoad">yes</value>
+  <value name="reloadWithDependentPackage">yes</value>
+  <null name="build"/>
   <value name="description">Customer Service package — retrieves customer records by ID from the Customer Management REST API</value>
-  <value name="build">1</value>
-  <value name="requires"></value>
+  <null name="extendedProperties"/>
+  <value name="target_server_version">13.0.0.0</value>
+  <value name="isProjectPackage">false</value>
 </Values>
